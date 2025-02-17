@@ -1,5 +1,4 @@
 "use client";
-
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { Modal } from "../ui/modal";
 import * as z from "zod";
@@ -17,6 +16,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -40,8 +41,9 @@ export const StoreModal = () => {
 
       const response = await axios.post("/api/stores", values);
 
-      console.log(response.data)
+      toast.success("Store created.");
     } catch (error) {
+      toast.error("Something went wrong!");
     } finally {
       setLoading(false);
     }
